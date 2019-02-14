@@ -7,9 +7,12 @@
 //
 
 import UIKit
+import CoreData
 
 class DetailVC: UITableViewController {
 
+    let myContext2 = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
