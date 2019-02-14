@@ -32,6 +32,18 @@ class MenueVC: UITableViewController {
         cell.textLabel?.text = myMenue[indexPath.row].items! //"items" ist das (einzige) Attribut (= Eigenschaft/Property) der Entity "Menue", welches als String den Haupttext in einer Zeile darstellt und sozusagen dem jeweiligen Menüeintrag entspricht; der Array ist zu Beginn leer und soll vom User via AlertView befüllt werden, siehe weiter unten
         return cell
     }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToDetail" {
+            if let myPath = tableView.indexPathForSelectedRow {
+                print(myMenue[myPath.row].items!)
+            }
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToDetail", sender: self)
+    }
 
     @IBAction func addButton(_ sender: UIBarButtonItem) {
         
