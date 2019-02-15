@@ -59,12 +59,19 @@ class DetailVC: UITableViewController {
         present(myAlertVC, animated: true, completion: nil)
     }
     
-    func loadTasks() {
-        let myPredicate = NSPredicate(format: "parent.items MATCHES %@", selectedTask!.items!)
-        fetching2.predicate = myPredicate
+    func loadTasks(myRequest: NSFetchRequest<Task> = Task.fetchRequest(), mySecondPredicate: NSPredicate? = nil) {
+        
+        let myFirstPredicate = NSPredicate(format: "parent.items MATCHES %@", selectedTask!.items!)
+        
+        if let additionalPredicate = mySecondPredicate {
+            let myCompound = NSCompoundPredicate(andPredicateWithSubpredicates: [myFirstPredicate, additionalPredicate])
+            myRequest.predicate = myCompound
+        } else {
+            myRequest.predicate = myFirstPredicate
+        }
         
         do {
-            myTasks = try myContext2.fetch(fetching2)
+            myTasks = try myContext2.fetch(myRequest)
         }
         catch {
             print("\(error)")
@@ -85,8 +92,8 @@ class DetailVC: UITableViewController {
 
 extension DetailVC: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        fetching2.predicate = NSPredicate(format: "name CONTAINS [cd] %@", searchBar.text!)
+        let searchPredicate = NSPredicate(format: "name CONTAINS [cd] %@", searchBar.text!)
         fetching2.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
-        loadTasks()
+        loadTasks(myRequest: fetching2, mySecondPredicate: searchPredicate)
     }
 }
