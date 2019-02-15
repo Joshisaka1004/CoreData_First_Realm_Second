@@ -513,7 +513,7 @@ extension Optional: OptionalProtocol {
 
 // FIXME: See the declaration of RealmCollectionBase for why this `#if` is required.
 #if swift(>=3.2)
-public extension RealmCollection where Element: MinMaxType {
+extension RealmCollection where Element: MinMaxType {
     /**
      Returns the minimum (lowest) value of the collection, or `nil` if the collection is empty.
      */
@@ -528,7 +528,7 @@ public extension RealmCollection where Element: MinMaxType {
     }
 }
 
-public extension RealmCollection where Element: OptionalProtocol, Element.Wrapped: MinMaxType {
+extension RealmCollection where Element: OptionalProtocol, Element.Wrapped: MinMaxType {
     /**
      Returns the minimum (lowest) value of the collection, or `nil` if the collection is empty.
      */
@@ -543,7 +543,7 @@ public extension RealmCollection where Element: OptionalProtocol, Element.Wrappe
     }
 }
 
-public extension RealmCollection where Element: AddableType {
+extension RealmCollection where Element: AddableType {
     /**
      Returns the sum of the values in the collection, or `nil` if the collection is empty.
      */
@@ -558,7 +558,7 @@ public extension RealmCollection where Element: AddableType {
     }
 }
 
-public extension RealmCollection where Element: OptionalProtocol, Element.Wrapped: AddableType {
+extension RealmCollection where Element: OptionalProtocol, Element.Wrapped: AddableType {
     /**
      Returns the sum of the values in the collection, or `nil` if the collection is empty.
      */
@@ -573,7 +573,7 @@ public extension RealmCollection where Element: OptionalProtocol, Element.Wrappe
     }
 }
 
-public extension RealmCollection where Element: Comparable {
+extension RealmCollection where Element: Comparable {
     /**
      Returns a `Results` containing the objects in the collection, but sorted.
 
@@ -587,7 +587,7 @@ public extension RealmCollection where Element: Comparable {
     }
 }
 
-public extension RealmCollection where Element: OptionalProtocol, Element.Wrapped: Comparable {
+extension RealmCollection where Element: OptionalProtocol, Element.Wrapped: Comparable {
     /**
      Returns a `Results` containing the objects in the collection, but sorted.
 

@@ -11,5 +11,5 @@ import RealmSwift
 
 class MyData: Object {
     @objc dynamic var myName: String = ""
-    @objc dynamic var myAge: Int = 0
+    @objc dynamic var myAge: Int = 51
 }
