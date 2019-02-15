@@ -36,7 +36,8 @@ class MenueVC: UITableViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToDetail" {
             if let myPath = tableView.indexPathForSelectedRow {
-                print(myMenue[myPath.row].items!)
+                let myDestinationVC = segue.destination as! DetailVC
+                myDestinationVC.selectedTask = myMenue[myPath.row]
             }
         }
     }

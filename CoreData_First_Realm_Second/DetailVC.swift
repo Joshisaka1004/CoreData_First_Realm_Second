@@ -11,13 +11,74 @@ import CoreData
 
 class DetailVC: UITableViewController {
 
+    let appPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+    
     let myContext2 = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    let fetching2 = NSFetchRequest<Task>(entityName: "Task")
+    
+    var myTasks = [Task]()
+    
+    var selectedTask: Menue? {
+        didSet {
+            loadTasks()
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        //print(appPath)
+    }
+    
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return myTasks.count
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
+        cell.textLabel?.text = myTasks[indexPath.row].name!
+        return cell
     }
 
     @IBAction func addButton(_ sender: UIBarButtonItem) {
+        var finalTextField = UITextField() // Ein UITextField wird als Variable initialisiert, die jeder Methode innerhalb der IB-Action zur Verfügung steht; in der "addTextField-Methode" unten wird das Textfeld des Alert-ViewControllers dieser Variablen zugewiesen, damit die UIAlertAction-Methode auf dieses zugreifen kann!
+        
+        let myAlertVC = UIAlertController(title: "Add Task", message: "whatever you need or want to do", preferredStyle: .alert)
+        let myAction = UIAlertAction(title: "OK!", style: .default) { (action) in
+            let myNewItem = Task(context: self.myContext2)
+            myNewItem.name = finalTextField.text!
+            myNewItem.parent = self.selectedTask
+            self.myTasks.append(myNewItem)
+            self.saveTasks()
+        }
+        
+        myAlertVC.addAction(myAction)
+        myAlertVC.addTextField { (myTextField) in
+            finalTextField = myTextField
+        }
+        present(myAlertVC, animated: true, completion: nil)
+    }
+    
+    func loadTasks() {
+        let myPredicate = NSPredicate(format: "parent.items MATCHES %@", selectedTask!.items!)
+        fetching2.predicate = myPredicate
+        
+        do {
+            myTasks = try myContext2.fetch(fetching2)
+        }
+        catch {
+            print("\(error)")
+        }
+        self.tableView.reloadData()
+    }
+    
+    func saveTasks() {
+        do {
+            try myContext2.save()
+        }
+        catch {
+            print("\(error)")
+        }
+        self.tableView.reloadData()
     }
 }
