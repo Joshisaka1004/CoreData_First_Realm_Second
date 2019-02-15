@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3B08478522177D0000DBC9CF /* MyData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B08478422177D0000DBC9CF /* MyData.swift */; };
 		3B79893F2215D605007457F7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B79893E2215D605007457F7 /* AppDelegate.swift */; };
 		3B7989412215D605007457F7 /* MenueVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B7989402215D605007457F7 /* MenueVC.swift */; };
 		3B7989442215D605007457F7 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3B7989422215D605007457F7 /* Main.storyboard */; };
@@ -18,6 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3B08478422177D0000DBC9CF /* MyData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyData.swift; sourceTree = "<group>"; };
 		3B79893B2215D605007457F7 /* CoreData_First_Realm_Second.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoreData_First_Realm_Second.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B79893E2215D605007457F7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3B7989402215D605007457F7 /* MenueVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenueVC.swift; sourceTree = "<group>"; };
@@ -69,6 +71,7 @@
 				3B7989422215D605007457F7 /* Main.storyboard */,
 				3B7989402215D605007457F7 /* MenueVC.swift */,
 				3B7989532215DA6D007457F7 /* DetailVC.swift */,
+				3B08478422177D0000DBC9CF /* MyData.swift */,
 				3B7989482215D606007457F7 /* Assets.xcassets */,
 				3B79894A2215D606007457F7 /* LaunchScreen.storyboard */,
 				3B79894D2215D606007457F7 /* Info.plist */,
@@ -211,6 +214,7 @@
 				3B7989472215D605007457F7 /* CoreData_First_Realm_Second.xcdatamodeld in Sources */,
 				3B7989542215DA6D007457F7 /* DetailVC.swift in Sources */,
 				3B7989412215D605007457F7 /* MenueVC.swift in Sources */,
+				3B08478522177D0000DBC9CF /* MyData.swift in Sources */,
 				3B79893F2215D605007457F7 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
