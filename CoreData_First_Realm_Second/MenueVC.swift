@@ -65,10 +65,10 @@ class MenueVC: UITableViewController {
         present(myAlertVC, animated: true, completion: nil)
     }
     
-    func loadItems() {
+    func loadItems(myRequest: NSFetchRequest<Menue> = Menue.fetchRequest()) {
         
         do {
-            myMenue = try myContext.fetch(fetching)
+            myMenue = try myContext.fetch(myRequest)
         }
         catch {
             print("\(error)")
@@ -85,5 +85,18 @@ class MenueVC: UITableViewController {
         }
         self.tableView.reloadData()
     }
+}
+
+extension MenueVC: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if !searchBar.text!.isEmpty {
+            fetching.predicate = NSPredicate(format: "items CONTAINS [cd] %@", searchBar.text!)
+            fetching.sortDescriptors = [NSSortDescriptor(key: "items", ascending: true)]
+            loadItems(myRequest: fetching)
+        } else {
+            loadItems()
+        }
+    }
+    
 }
 

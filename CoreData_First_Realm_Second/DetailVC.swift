@@ -27,7 +27,7 @@ class DetailVC: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print(appPath)
+        print(appPath)
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -80,5 +80,13 @@ class DetailVC: UITableViewController {
             print("\(error)")
         }
         self.tableView.reloadData()
+    }
+}
+
+extension DetailVC: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        fetching2.predicate = NSPredicate(format: "name CONTAINS [cd] %@", searchBar.text!)
+        fetching2.sortDescriptors = [NSSortDescriptor(key: "name", ascending: true)]
+        loadTasks()
     }
 }
