@@ -19,20 +19,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        let myObj1 = MyData()
-        myObj1.myAge = 36
-        myObj1.myName = "Martina"
-        
-        do {
-            let myRealm = try Realm()
-            try myRealm.write {
-                myRealm.add(myObj1)
-            }
-        }
-        catch {
-            print("\(error)")
-        }
-        
         print(Realm.Configuration.defaultConfiguration.fileURL!)
         
         return true

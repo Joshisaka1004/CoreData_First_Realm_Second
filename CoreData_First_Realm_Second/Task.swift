@@ -11,4 +11,5 @@ import RealmSwift
 
 class Task: Object {
     @objc dynamic var name: String = ""
+    var parent = LinkingObjects(fromType: Menue.self, property: "myChildren")
 }

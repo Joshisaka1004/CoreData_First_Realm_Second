@@ -11,4 +11,5 @@ import RealmSwift
 
 class Menue: Object {
     @objc dynamic var items: String = ""
+    let myChildren = List<Task>()
 }

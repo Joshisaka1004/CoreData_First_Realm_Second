@@ -7,22 +7,23 @@
 //
 
 import UIKit
-import CoreData
 import RealmSwift
 
 
 class MenueVC: UITableViewController {
 
+    let myRealm = try! Realm()
+    
     let myAppPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! // Pfad zur App im Dateimanager des Geräts
     let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext // der Context des Persistent Containers von Core Data, nur der Context ist direkt ansprechbar, nicht der Container selbst!
     
-    let fetching = NSFetchRequest<Menue>(entityName: "Menue")
+    //let fetching = NSFetchRequest<Menue>(entityName: "Menue")
     
     var myMenue = [Menue]() // Array aus Instanzen vom Datentyp der Entity (= Klasse) "Menue" von Core Data (deklariert in der Datei ...xcdatamodelID
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        loadItems()
+        //loadItems()
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -31,7 +32,7 @@ class MenueVC: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
-        cell.textLabel?.text = myMenue[indexPath.row].items! //"items" ist das (einzige) Attribut (= Eigenschaft/Property) der Entity "Menue", welches als String den Haupttext in einer Zeile darstellt und sozusagen dem jeweiligen Menüeintrag entspricht; der Array ist zu Beginn leer und soll vom User via AlertView befüllt werden, siehe weiter unten
+        cell.textLabel?.text = myMenue[indexPath.row].items //"items" ist das (einzige) Attribut (= Eigenschaft/Property) der Entity "Menue", welches als String den Haupttext in einer Zeile darstellt und sozusagen dem jeweiligen Menüeintrag entspricht; der Array ist zu Beginn leer und soll vom User via AlertView befüllt werden, siehe weiter unten
         return cell
     }
     
@@ -54,10 +55,10 @@ class MenueVC: UITableViewController {
         
         let myAlertVC = UIAlertController(title: "Add Task", message: "whatever you need or want to do", preferredStyle: .alert)
         let myAction = UIAlertAction(title: "OK!", style: .default) { (action) in
-            let myNewItem = Menue(context: self.myContext)
+            let myNewItem = Menue()
             myNewItem.items = finalTextField.text!
             self.myMenue.append(myNewItem)
-            self.saveItems()
+            self.saveItems(menueItem: myNewItem)
         }
         
         myAlertVC.addAction(myAction)
@@ -67,20 +68,22 @@ class MenueVC: UITableViewController {
         present(myAlertVC, animated: true, completion: nil)
     }
     
-    func loadItems(myRequest: NSFetchRequest<Menue> = Menue.fetchRequest()) {
-        
-        do {
-            myMenue = try myContext.fetch(myRequest)
-        }
-        catch {
-            print("\(error)")
-        }
-        self.tableView.reloadData()
-    }
+//    func loadItems(myRequest: NSFetchRequest<Menue> = Menue.fetchRequest()) {
+//
+//        do {
+//            myMenue = try myContext.fetch(myRequest)
+//        }
+//        catch {
+//            print("\(error)")
+//        }
+//        self.tableView.reloadData()
+//    }
     
-    func saveItems() {
+    func saveItems(menueItem: Menue) {
         do {
-            try myContext.save()
+            try myRealm.write {
+                myRealm.add(menueItem)
+            }
         }
         catch {
             print("\(error)")
@@ -89,16 +92,16 @@ class MenueVC: UITableViewController {
     }
 }
 
-extension MenueVC: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if !searchBar.text!.isEmpty {
-            fetching.predicate = NSPredicate(format: "items CONTAINS [cd] %@", searchBar.text!)
-            fetching.sortDescriptors = [NSSortDescriptor(key: "items", ascending: true)]
-            loadItems(myRequest: fetching)
-        } else {
-            loadItems()
-        }
-    }
-    
-}
+//extension MenueVC: UISearchBarDelegate {
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        if !searchBar.text!.isEmpty {
+//            fetching.predicate = NSPredicate(format: "items CONTAINS [cd] %@", searchBar.text!)
+//            fetching.sortDescriptors = [NSSortDescriptor(key: "items", ascending: true)]
+//            loadItems(myRequest: fetching)
+//        } else {
+//            loadItems()
+//        }
+//    }
+//    
+//}
 
