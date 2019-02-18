@@ -9,30 +9,28 @@
 import UIKit
 import RealmSwift
 
-
 class MenueVC: UITableViewController {
 
     let myRealm = try! Realm()
     
-    let myAppPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first! // Pfad zur App im Dateimanager des Geräts
-    let myContext = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext // der Context des Persistent Containers von Core Data, nur der Context ist direkt ansprechbar, nicht der Container selbst!
+    let myAppPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
     
     //let fetching = NSFetchRequest<Menue>(entityName: "Menue")
     
-    var myMenue = [Menue]() // Array aus Instanzen vom Datentyp der Entity (= Klasse) "Menue" von Core Data (deklariert in der Datei ...xcdatamodelID
+    var myMenue: Results<Menue>? // Array aus Instanzen vom Datentyp der Entity (= Klasse) "Menue" von Core Data (deklariert in der Datei ...xcdatamodelID
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //loadItems()
+        loadItems()
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return myMenue.count // Anzahl der Tabellenzeilen entspricht der Anzahl der Instanzen unserer CoreData-Entity "Menue"
+        return myMenue?.count ?? 1 // Anzahl der Tabellenzeilen entspricht der Anzahl der Instanzen unserer CoreData-Entity "Menue"
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "myCell", for: indexPath)
-        cell.textLabel?.text = myMenue[indexPath.row].items //"items" ist das (einzige) Attribut (= Eigenschaft/Property) der Entity "Menue", welches als String den Haupttext in einer Zeile darstellt und sozusagen dem jeweiligen Menüeintrag entspricht; der Array ist zu Beginn leer und soll vom User via AlertView befüllt werden, siehe weiter unten
+        cell.textLabel?.text = myMenue?[indexPath.row].items ?? "No Menue categories yet!" //"items" ist das (einzige) Attribut (= Eigenschaft/Property) der Entity "Menue", welches als String den Haupttext in einer Zeile darstellt und sozusagen dem jeweiligen Menüeintrag entspricht; der Array ist zu Beginn leer und soll vom User via AlertView befüllt werden, siehe weiter unten
         return cell
     }
     
@@ -40,7 +38,7 @@ class MenueVC: UITableViewController {
         if segue.identifier == "goToDetail" {
             if let myPath = tableView.indexPathForSelectedRow {
                 let myDestinationVC = segue.destination as! DetailVC
-                myDestinationVC.selectedTask = myMenue[myPath.row]
+                myDestinationVC.selectedTask = myMenue?[myPath.row]
             }
         }
     }
@@ -57,7 +55,6 @@ class MenueVC: UITableViewController {
         let myAction = UIAlertAction(title: "OK!", style: .default) { (action) in
             let myNewItem = Menue()
             myNewItem.items = finalTextField.text!
-            self.myMenue.append(myNewItem)
             self.saveItems(menueItem: myNewItem)
         }
         
@@ -68,16 +65,10 @@ class MenueVC: UITableViewController {
         present(myAlertVC, animated: true, completion: nil)
     }
     
-//    func loadItems(myRequest: NSFetchRequest<Menue> = Menue.fetchRequest()) {
-//
-//        do {
-//            myMenue = try myContext.fetch(myRequest)
-//        }
-//        catch {
-//            print("\(error)")
-//        }
-//        self.tableView.reloadData()
-//    }
+    func loadItems() {
+        myMenue = myRealm.objects(Menue.self)
+        tableView.reloadData()
+    }
     
     func saveItems(menueItem: Menue) {
         do {

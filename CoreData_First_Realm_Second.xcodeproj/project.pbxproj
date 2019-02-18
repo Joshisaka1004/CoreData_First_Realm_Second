@@ -69,15 +69,31 @@
 			children = (
 				3B79893E2215D605007457F7 /* AppDelegate.swift */,
 				3B7989422215D605007457F7 /* Main.storyboard */,
-				3B7989402215D605007457F7 /* MenueVC.swift */,
-				3B7989532215DA6D007457F7 /* DetailVC.swift */,
+				3BEC0FF7221AA7690017E8F7 /* ViewControllers */,
 				3B7989482215D606007457F7 /* Assets.xcassets */,
-				3B3BFCA3221A15260008DBE3 /* Menue.swift */,
-				3B3BFCA5221A155D0008DBE3 /* Task.swift */,
+				3BEC0FF8221AA7780017E8F7 /* DataModels */,
 				3B79894A2215D606007457F7 /* LaunchScreen.storyboard */,
 				3B79894D2215D606007457F7 /* Info.plist */,
 			);
 			path = CoreData_First_Realm_Second;
+			sourceTree = "<group>";
+		};
+		3BEC0FF7221AA7690017E8F7 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				3B7989402215D605007457F7 /* MenueVC.swift */,
+				3B7989532215DA6D007457F7 /* DetailVC.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		3BEC0FF8221AA7780017E8F7 /* DataModels */ = {
+			isa = PBXGroup;
+			children = (
+				3B3BFCA3221A15260008DBE3 /* Menue.swift */,
+				3B3BFCA5221A155D0008DBE3 /* Task.swift */,
+			);
+			path = DataModels;
 			sourceTree = "<group>";
 		};
 		B9F813D6C48AF80368AA96EB /* Pods */ = {
